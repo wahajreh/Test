@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
-export class AppComponent {
+export class ProductListComponent {
   title = 'Test';
   products = [
     { name: 'Product 1', description: 'Description 1', category: 'Electronics', price: 49.99, quantity: 10, date: new Date() },
