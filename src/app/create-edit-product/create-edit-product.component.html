@@ -55,15 +55,9 @@
           </div>
         </div>
       
-        <div class="mb-3">
-          <label for="date" class="form-label">Date:</label>
-          <input type="date" id="date" class="form-control" formControlName="date">
-          <div *ngIf="productForm.get('date')?.hasError('required')" class="text-danger">
-            Date is required.
-          </div>
-        </div>
+        
       
-        <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">{{editMod?'Update' : 'Submit'}}</button>
       </form>
       
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../services/http.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-edit-product',
@@ -13,19 +14,33 @@ export class CreateEditProductComponent {
   categories = ['Electronics', 'Clothing', 'Books', 'Toys']; // Example categories
 Mode: any='Create';
   items: any[]=[];
+  id: any;
+  editMod: boolean=false;
 
-  constructor(private fb: FormBuilder,private crudService: HttpService) {
+  constructor(private fb: FormBuilder,private crudService: HttpService,private route: ActivatedRoute,private router: Router) {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.maxLength(200)]],
       category: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(0.01)]],
       quantity: [null, [Validators.required, Validators.min(1)]],
-      date: [null, Validators.required]
     });
    }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+
+      if (this.id) {
+        this.editMod = true;
+      }
+      else{
+        this.editMod==false
+      }
+      
+      // Do something with the retrieved ID
+      console.log('ID:', this.id);});
+      this.getProductById()
   }
 
   private buildForm(): void {
@@ -36,21 +51,35 @@ Mode: any='Create';
     if (this.productForm.valid) {
       // Process the form data (save to database, etc.)
       console.log(this.productForm.value);
+      if (this.editMod) {
+        this.editItem(this.id,this.productForm?.value)
+      } else {
+        this.createItem(this.productForm?.value)
+      }
     } else {
       // Form is invalid, display error messages or handle accordingly
     }
   }
-  createItem(): void {
-    const newItemData = { /* your item data here */ };
-    this.crudService.createItem(newItemData).subscribe(() => {
-      this.loadItems();
+  createItem(newItemData:any): void {
+    var payload = {"Name":newItemData?.name , 
+    "Description":newItemData?.description,  
+    "Price":newItemData?.price  ,
+    "Quantity":newItemData?.quantity , 
+    "Category":newItemData?.category}
+    this.crudService.createItem(payload).subscribe(() => {
+      this.router.navigate(['/']);
     });
   }
 
-  editItem(itemId: number): void {
-    const updatedData = { /* your updated data here */ };
-    this.crudService.editItem(itemId, updatedData).subscribe(() => {
-      this.loadItems();
+  editItem(itemId: number,newItemData:any): void {
+    var payload = {"Name":newItemData?.name , 
+    "Description":newItemData?.description,  
+    "Price":newItemData?.price  ,
+    "Quantity":newItemData?.quantity , 
+    "Category":newItemData?.category,
+  "ProductId":itemId}
+    this.crudService.editItem(itemId, payload).subscribe(() => {
+      this.router.navigate(['/']);
     });
   }
 
@@ -63,5 +92,11 @@ Mode: any='Create';
     this.crudService.getAllItems().subscribe(data => {
       this.items = data;
     });
+  }
+  getProductById(){
+    this.crudService.getItemById(this.id).subscribe(x=>{
+      console.log("🚀 ~ CreateEditProductComponent ~ this.crudService.getItemById ~ x:", x)
+      this.productForm.patchValue(x);
+    })
   }
 }

@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
 
-  private apiUrl = 'https://your-api-base-url/api/items';
+  private apiUrl = 'http://localhost:5183';
 
   constructor(private http: HttpClient) { }
 
   getAllItems(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl+'/GetAll');
   }
 
   getItemById(itemId: number): Observable<any> {
@@ -21,7 +21,7 @@ export class HttpService {
   }
 
   createItem(itemData: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, itemData);
+    return this.http.post<any>(this.apiUrl+'/create', itemData);
   }
 
   editItem(itemId: number, updatedData: any): Observable<any> {

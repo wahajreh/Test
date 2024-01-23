@@ -8,6 +8,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './interceptor/api-interceptor';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ApiInterceptor } from './interceptor/api-interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,FormsModule,        // Import FormsModule for template-driven forms
-    ReactiveFormsModule
+    ReactiveFormsModule,HttpClientModule
   ],
   providers: [    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
   ],
