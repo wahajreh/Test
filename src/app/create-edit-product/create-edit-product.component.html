@@ -4,7 +4,7 @@
         <div class="mb-3">
           <label for="name" class="form-label">Name:</label>
           <input type="text" id="name" class="form-control" formControlName="name">
-          <div *ngIf="productForm.get('name')?.hasError('required')" class="text-danger">
+          <div *ngIf="productForm.get('name')?.hasError('required') || productForm.get('name')?.hasError('hasSpace')" class="text-danger">
             Name is required.
           </div>
           <div *ngIf="productForm.get('name')?.hasError('maxlength')" class="text-danger">
@@ -15,7 +15,7 @@
         <div class="mb-3">
           <label for="description" class="form-label">Description:</label>
           <textarea id="description" class="form-control" formControlName="description"></textarea>
-          <div *ngIf="productForm.get('description')?.hasError('required')" class="text-danger">
+          <div *ngIf="productForm.get('description')?.hasError('required') || productForm.get('description')?.hasError('hasSpace')" class="text-danger">
             Description is required.
           </div>
           <div *ngIf="productForm.get('description')?.hasError('maxlength')" class="text-danger">

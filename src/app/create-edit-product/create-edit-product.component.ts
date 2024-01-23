@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ Mode: any='Create';
 
   constructor(private fb: FormBuilder,private crudService: HttpService,private route: ActivatedRoute,private router: Router) {
     this.productForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(50)]],
+      name: ['', [Validators.required, Validators.maxLength(50),this.customValidator()]],
       description: ['', [Validators.required, Validators.maxLength(200)]],
       category: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(0.01)]],
@@ -98,5 +98,20 @@ Mode: any='Create';
       console.log("🚀 ~ CreateEditProductComponent ~ this.crudService.getItemById ~ x:", x)
       this.productForm.patchValue(x);
     })
+  }
+  customValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value: string = control.value;
+  
+      // Check for spaces
+      if (/\s/.test(value)) {
+        return { hasSpace: true };
+      }
+  
+      // Add other conditions as needed
+  
+      // If all conditions are met, return null (no validation error)
+      return null;
+    };
   }
 }
