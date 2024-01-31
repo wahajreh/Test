@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<!-- your-component.component.html -->
+
+<form [formGroup]="yourForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="Condition">
+      <div *ngFor="let condition of getControls(yourForm ,'Condition'); let i = index" class="condition-group">
+        <div [formGroupName]="i">
+          <h3>Condition {{ i + 1 }}</h3>
+          <div formArrayName="ScoreBoardSet">
+            <div *ngFor="let scoreBoardSet of condition.get('ScoreBoardSet').controls; let j = index" class="score-board-set-group">
+              <div [formGroupName]="j">
+                <label for="filed1">Field 1:</label>
+                <input type="text" id="filed1" formControlName="filed1">
+                <!-- Repeat for other fields in ScoreBoardSet -->
+                <button type="button" >Remove ScoreBoardSet</button>
+              </div>
+            </div>
+            <button type="button" >Add ScoreBoardSet</button>
+          </div>
+          <button type="button" >Remove Condition</button>
+        </div>
+      </div>
+      <button type="button" >Add Condition</button>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  
