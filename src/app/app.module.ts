@@ -9,12 +9,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './interceptor/api-interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutComponent } from './components/layout/layout.component';
+import { NavbarComponent } from './components/elements/navbar/navbar.component';
+import { FooterComponent } from './components/elements/footer/footer.component';
+import { HomeComponent } from './components/elements/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateEditProductComponent,
-    ProductListComponent
+    ProductListComponent,
+    LayoutComponent,
+    NavbarComponent,
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
